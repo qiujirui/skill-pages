@@ -494,6 +494,37 @@ footer {
   </div>
 </section>
 
+<section id="security">
+  <div class="reveal">
+    <span class="section-tag">Security</span>
+    <h2>安全特性</h2>
+    <p>内置安全 HTTP 服务器，防止敏感文件泄露</p>
+  </div>
+  <div class="reveal">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>访问根目录为什么会显示 403？</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-a">这是安全设计。<strong style="color:var(--accent)">目录列表已被禁用</strong>，直接访问文件夹会返回 403。只有明确的 HTML 文件路径才能访问。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>哪些文件类型可以访问？</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-a"><strong style="color:var(--accent)">允许：</strong>HTML, CSS, JS, JSON, PNG, JPG, GIF, SVG, MP4, PDF 等常见网页资源。<br><strong style="color:var(--danger)">禁止：</strong>PY, EXE, ZIP, RAR, ENV 等代码、可执行文件、压缩包和配置文件。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>能否防止路径遍历攻击？</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="faq-a">可以。服务器已内置<strong style="color:var(--accent)">路径遍历防护</strong>，通过 <code style="color:var(--accent)">../</code> 等方式访问上级目录会被阻止。</div>
+    </div>
+  </div>
+</section>
+
 <section id="faq">
   <div class="reveal">
     <span class="section-tag">FAQ</span>
