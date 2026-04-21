@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ngrok-tunnel Skill - 内网穿透</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6; 
+            background: #0d1117; 
+            color: #c9d1d9; 
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 { color: #58a6ff; border-bottom: 2px solid #30363d; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { color: #8b949e; margin-top: 30px; margin-bottom: 15px; }
+        h3 { color: #c9d1d9; margin-top: 20px; }
+        code { 
+            background: #161b22; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+            font-family: 'Consolas', monospace;
+            color: #79c0ff;
+        }
+        pre { 
+            background: #161b22; 
+            padding: 15px; 
+            border-radius: 8px; 
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #30363d;
+        }
+        pre code { background: none; padding: 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th, td { border: 1px solid #30363d; padding: 10px; text-align: left; }
+        th { background: #161b22; color: #58a6ff; }
+        ul, ol { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+        .download-section {
+            background: #161b22;
+            border: 2px solid #238636;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #238636;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .download-btn:hover { background: #2ea043; }
+        .nav { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            display: flex; 
+            gap: 8px;
+            z-index: 1000;
+        }
+        .nav a {
+            padding: 8px 12px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        .nav a:hover { background: #21262d; }
+        .warning { background: #3d1f00; border: 1px solid #f0883e; padding: 10px; border-radius: 6px; margin: 15px 0; }
+        .security { background: #1f3a2f; border: 1px solid #238636; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔗 ngrok-tunnel Skill</h1>
+    
+    <p>将本地 HTTP 服务通过 ngrok 暴露到公网，让外部用户可以通过公网 URL 访问本地页面。</p>
+    
+    <div class="download-section">
+        <h2>📦 下载 Skill</h2>
+        <p>点击下方按钮下载 Skill 完整文件包</p>
+        <a href="https://github.com/qiujirui/skill-pages/raw/main/skill-ngrok-tunnel.zip" class="download-btn" download>⬇️ 下载 skill-ngrok-tunnel.zip</a>
+    </div>
+
+    <h2>📋 目录</h2>
+    <ul>
+        <li><a href="#dependencies">前置依赖</a></li>
+        <li><a href="#security">安全特性</a></li>
+        <li><a href="#usage">使用流程</a></li>
+        <li><a href="#config">配置说明</a></li>
+        <li><a href="#notes">注意事项</a></li>
+        <li><a href="#troubleshooting">故障排查</a></li>
+    </ul>
+
+    <h2 id="dependencies">前置依赖</h2>
+    <ul>
+        <li>Python 3.x + pyngrok 包</li>
+        <li>ngrok 账号 + authtoken</li>
+        <li>本地 HTTP 服务器（默认端口 8099）</li>
+    </ul>
+
+    <h2 id="security">安全特性</h2>
+    <div class="security">
+        <p><strong>本 Skill 使用安全 HTTP 服务器，默认启用以下防护：</strong></p>
+    </div>
+    
+    <table>
+        <tr>
+            <th>防护措施</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td>禁止目录列表</td>
+            <td>访问文件夹不会显示文件列表（返回 403）</td>
+        </tr>
+        <tr>
+            <td>白名单限制</td>
+            <td>只允许 HTML/CSS/JS/图片等媒体文件</td>
+        </tr>
+        <tr>
+            <td>黑名单过滤</td>
+            <td>禁止访问 .env, config, 密码文件等敏感文件</td>
+        </tr>
+        <tr>
+            <td>路径遍历防护</td>
+            <td>阻止 <code>../</code> 等方式访问上级目录</td>
+        </tr>
+    </table>
+
+    <p><strong>允许的文件类型：</strong> <code>.html</code>, <code>.htm</code>, <code>.css</code>, <code>.js</code>, <code>.json</code>, <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>, <code>.gif</code>, <code>.webp</code>, <code>.svg</code>, <code>.ico</code>, <code>.woff</code>, <code>.woff2</code>, <code>.ttf</code>, <code>.mp4</code>, <code>.webm</code>, <code>.mp3</code>, <code>.wav</code>, <code>.pdf</code>, <code>.txt</code>, <code>.xml</code>, <code>.md</code></p>
+    
+    <p><strong>禁止的文件类型：</strong> <code>.py</code>, <code>.exe</code>, <code>.bat</code>, <code>.sh</code>, <code>.zip</code>, <code>.rar</code>, <code>.7z</code>, <code>.env</code> 等</p>
+
+    <h2 id="usage">使用流程</h2>
+    
+    <h3>1. 一键启动</h3>
+    <pre><code>python scripts/tunnel.py start</code></pre>
+    <p>自动完成：启动 HTTP 服务器 → 建立 ngrok 隧道 → 验证公网访问 → 输出公网地址</p>
+
+    <h3>2. 仅启动服务器</h3>
+    <pre><code>python scripts/tunnel.py start-server</code></pre>
+
+    <h3>3. 仅启动隧道</h3>
+    <pre><code>python scripts/tunnel.py start-tunnel</code></pre>
+
+    <h3>4. 查看状态</h3>
+    <pre><code>python scripts/tunnel.py status</code></pre>
+
+    <h3>5. 重启</h3>
+    <pre><code>python scripts/tunnel.py restart</code></pre>
+
+    <h3>6. 停止</h3>
+    <pre><code>python scripts/tunnel.py stop</code></pre>
+
+    <h2 id="config">配置说明</h2>
+    <table>
+        <tr>
+            <th>配置项</th>
+            <th>位置</th>
+            <th>说明</th>
+        </tr>
+        <tr>
+            <td>AUTHTOKEN</td>
+            <td>config.env</td>
+            <td>ngrok authtoken，从 dashboard.ngrok.com 获取</td>
+        </tr>
+        <tr>
+            <td>默认端口</td>
+            <td>8099</td>
+            <td>本地 HTTP 服务器端口</td>
+        </tr>
+        <tr>
+            <td>根目录</td>
+            <td>D:\WorkBuddyOutput</td>
+            <td>HTTP 服务器根目录</td>
+        </tr>
+    </table>
+
+    <div class="warning">
+        <strong>⚠️ 注意：</strong> config.env 文件中包含敏感凭证，请勿泄露。
+    </div>
+
+    <h2 id="notes">注意事项</h2>
+    <ul>
+        <li>ngrok 免费版每次重启后公网地址会变</li>
+        <li>首次访问 ngrok 地址会出现"Visit Site"确认页，点击即可</li>
+        <li>authtoken 失效时需重新配置 config.env</li>
+        <li>重启电脑后需要重新运行 <code>tunnel.py start</code></li>
+    </ul>
+
+    <h2 id="troubleshooting">故障排查</h2>
+    <table>
+        <tr>
+            <th>问题</th>
+            <th>原因</th>
+            <th>解决</th>
+        </tr>
+        <tr>
+            <td>隧道建立但无法访问</td>
+            <td>本地服务器未启动</td>
+            <td>先运行 <code>tunnel.py start-server</code></td>
+        </tr>
+        <tr>
+            <td>authtoken 错误</td>
+            <td>token 过期或格式错误</td>
+            <td>去 ngrok Dashboard 重新获取</td>
+        </tr>
+        <tr>
+            <td>端口被占用</td>
+            <td>8099 已有其他进程</td>
+            <td>修改脚本中的 DEFAULT_PORT</td>
+        </tr>
+        <tr>
+            <td>访问出现 Visit Site 页面</td>
+            <td>ngrok 免费版正常行为</td>
+            <td>点击确认即可</td>
+        </tr>
+    </table>
+
+    <h2>文件结构</h2>
+    <pre><code>ngrok-tunnel/
+├── SKILL.md          # 技能说明
+├── config.env        # authtoken 配置（需用户自行配置）
+└── scripts/
+    └── tunnel.py     # 核心脚本</code></pre>
+
+    <div class="nav">
+        <a href="#download">📦 下载</a>
+        <a href="https://qiujirui.github.io/skill-pages/">🏠 首页</a>
+    </div>
+</body>
+</html>
