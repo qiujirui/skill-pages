@@ -1,222 +1,1088 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>github-pages Skill - 技能介绍</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6; 
-            background: #0d1117; 
-            color: #c9d1d9; 
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        h1 { color: #58a6ff; border-bottom: 2px solid #30363d; padding-bottom: 10px; margin-bottom: 20px; }
-        h2 { color: #8b949e; margin-top: 30px; margin-bottom: 15px; }
-        h3 { color: #c9d1d9; margin-top: 20px; }
-        code { 
-            background: #161b22; 
-            padding: 2px 6px; 
-            border-radius: 4px; 
-            font-family: 'Consolas', monospace;
-            color: #79c0ff;
-        }
-        pre { 
-            background: #161b22; 
-            padding: 15px; 
-            border-radius: 8px; 
-            overflow-x: auto;
-            margin: 15px 0;
-            border: 1px solid #30363d;
-        }
-        pre code { background: none; padding: 0; }
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        th, td { border: 1px solid #30363d; padding: 10px; text-align: left; }
-        th { background: #161b22; color: #58a6ff; }
-        ul, ol { margin-left: 20px; margin-bottom: 15px; }
-        li { margin-bottom: 8px; }
-        .download-section {
-            background: #161b22;
-            border: 2px solid #238636;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: center;
-        }
-        .download-btn {
-            display: inline-block;
-            background: #238636;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .download-btn:hover { background: #2ea043; }
-        .nav { 
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            display: flex; 
-            gap: 8px;
-            z-index: 1000;
-        }
-        .nav a {
-            padding: 8px 12px;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: #c9d1d9;
-            text-decoration: none;
-            font-size: 12px;
-        }
-        .nav a:hover { background: #21262d; }
-        .warning { background: #3d1f00; border: 1px solid #f0883e; padding: 10px; border-radius: 6px; margin: 15px 0; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Pages Skill | WorkBuddy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --card: rgba(30, 41, 59, 0.8);
+  --border: rgba(59, 130, 246, 0.2);
+}
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* 粒子背景 */
+#particles {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 导航 */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10, 14, 26, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav .logo {
+  font-size: 18px; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav .nav-links { display: flex; gap: 24px; }
+nav .nav-links a {
+  color: var(--text-dim); text-decoration: none; font-size: 14px;
+  transition: color 0.3s;
+}
+nav .nav-links a:hover { color: var(--accent); }
+
+/* 通用 */
+section {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 100px 24px;
+}
+
+.section-tag {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.section-title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900; text-align: center;
+  margin-bottom: 16px;
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.8s ease 0.1s;
+}
+
+.section-desc {
+  font-size: 16px; color: var(--text-dim);
+  text-align: center; max-width: 600px;
+  line-height: 1.8;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.8s ease 0.2s;
+}
+
+.visible .section-tag,
+.visible .section-title,
+.visible .section-desc {
+  opacity: 1; transform: translateY(0);
+}
+
+/* Hero */
+#hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.1) 0%, transparent 60%);
+}
+
+.hero-icon {
+  font-size: 80px; margin-bottom: 32px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 20px; padding: 6px 16px;
+  font-size: 13px; color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.hero-stats {
+  display: flex; gap: 40px;
+  margin-top: 32px;
+}
+
+.hero-stat {
+  text-align: center;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.visible .hero-stat { opacity: 1; transform: translateY(0); }
+.visible .hero-stat:nth-child(1) { transition-delay: 0.3s; }
+.visible .hero-stat:nth-child(2) { transition-delay: 0.4s; }
+.visible .hero-stat:nth-child(3) { transition-delay: 0.5s; }
+
+.hero-stat .num {
+  font-size: 2.5rem; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-stat .label {
+  font-size: 0.85rem; color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--text-dim); font-size: 12px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* 对比卡片 */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 700px;
+  margin-top: 48px;
+  width: 100%;
+}
+
+.compare-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+.visible .compare-card { opacity: 1; transform: translateY(0); }
+.visible .compare-card:nth-child(1) { transition-delay: 0.1s; }
+.visible .compare-card:nth-child(2) { transition-delay: 0.2s; }
+
+.compare-card.bad {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.compare-card.good {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.compare-card .tag {
+  font-size: 12px; font-weight: 600;
+  margin-bottom: 12px;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.compare-card.bad .tag {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--red);
+}
+
+.compare-card.good .tag {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--green);
+}
+
+.compare-card p {
+  font-size: 14px; color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* 流程步骤 */
+.flow-container {
+  max-width: 1000px; width: 100%;
+  margin-top: 48px;
+  position: relative;
+}
+
+.flow-step {
+  display: flex; align-items: center; gap: 24px;
+  margin-bottom: 20px;
+  opacity: 0; transform: translateX(-40px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.visible .flow-step { opacity: 1; transform: translateX(0); }
+.visible .flow-step:nth-child(1) { transition-delay: 0.1s; }
+.visible .flow-step:nth-child(2) { transition-delay: 0.2s; }
+.visible .flow-step:nth-child(3) { transition-delay: 0.3s; }
+.visible .flow-step:nth-child(4) { transition-delay: 0.4s; }
+.visible .flow-step:nth-child(5) { transition-delay: 0.5s; }
+
+.flow-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(59,130,246,0.2);
+  color: var(--accent);
+}
+
+.flow-num::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  opacity: 0.3;
+  animation: ring-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ring-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.15); opacity: 0; }
+}
+
+.flow-content {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: all 0.3s;
+}
+
+.flow-content:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(59,130,246,0.1);
+}
+
+.flow-content h3 { font-size: 16px; margin-bottom: 6px; }
+.flow-content p { font-size: 13px; color: var(--text-dim); }
+
+.flow-arrow {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 20px;
+  margin-left: 20px;
+  opacity: 0;
+  animation: arrow-blink 1.5s ease-in-out infinite;
+}
+
+.visible .flow-arrow { opacity: 0.6; }
+
+@keyframes arrow-blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* 架构网格 */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin-top: 48px;
+  width: 100%;
+}
+
+.arch-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 20px;
+  text-align: center;
+  opacity: 0; transform: scale(0.9);
+  transition: all 0.5s ease;
+}
+
+.visible .arch-card { opacity: 1; transform: scale(1); }
+.visible .arch-card:nth-child(1) { transition-delay: 0.1s; }
+.visible .arch-card:nth-child(2) { transition-delay: 0.15s; }
+.visible .arch-card:nth-child(3) { transition-delay: 0.2s; }
+
+.arch-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.arch-card .icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.arch-card .name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.arch-card .desc {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.arch-connector {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 24px;
+  padding: 16px 0;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.3s;
+}
+
+.visible .arch-connector { opacity: 1; }
+
+/* 命令卡片 */
+.cmd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin-top: 48px;
+  width: 100%;
+}
+
+.cmd-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+.visible .cmd-card { opacity: 1; transform: translateY(0); }
+.visible .cmd-card:nth-child(1) { transition-delay: 0.1s; }
+.visible .cmd-card:nth-child(2) { transition-delay: 0.15s; }
+.visible .cmd-card:nth-child(3) { transition-delay: 0.2s; }
+.visible .cmd-card:nth-child(4) { transition-delay: 0.25s; }
+
+.cmd-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+
+.cmd-card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.cmd-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.code-block {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.code-block .cmd { color: var(--accent); }
+.code-block .flag { color: var(--accent2); }
+.code-block .path { color: var(--accent3); }
+
+/* 对比表格 */
+.compare-table {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 48px;
+  border-collapse: collapse;
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.5s ease;
+}
+
+.visible .compare-table { opacity: 1; transform: translateY(0); }
+
+.compare-table th {
+  background: var(--card);
+  color: var(--accent);
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 2px solid var(--border);
+}
+
+.compare-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+}
+
+.compare-table tr:hover td {
+  background: rgba(59,130,246,0.03);
+}
+
+.yes { color: var(--green); }
+.no { color: var(--red); }
+.mid { color: var(--orange); }
+
+/* FAQ */
+.faq-list {
+  max-width: 700px; width: 100%;
+  margin-top: 48px;
+}
+
+.faq-item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.visible .faq-item { opacity: 1; transform: translateY(0); }
+
+.faq-question {
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 15px; font-weight: 500;
+  transition: background 0.3s;
+}
+
+.faq-question:hover { background: rgba(59,130,246,0.05); }
+
+.faq-arrow {
+  transition: transform 0.3s;
+  font-size: 12px; color: var(--accent);
+}
+
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-answer-inner {
+  padding: 0 24px 20px;
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.faq-answer-inner code {
+  background: rgba(59,130,246,0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+/* 触发词 */
+.trigger-cloud {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 12px;
+  max-width: 700px; margin-top: 48px;
+}
+
+.trigger-tag {
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 14px; font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  transition: all 0.3s;
+  opacity: 0; transform: scale(0.8);
+}
+
+.visible .trigger-tag { opacity: 1; transform: scale(1); }
+
+.trigger-tag:hover {
+  border-color: var(--accent);
+  background: rgba(59,130,246,0.15);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(59,130,246,0.2);
+}
+
+/* 下载区域 */
+.download-section {
+  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(139,92,246,0.1));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px;
+  text-align: center;
+  max-width: 600px;
+  margin-top: 48px;
+}
+
+.download-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s;
+  margin-top: 24px;
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59,130,246,0.3);
+}
+
+/* 进度条 */
+.progress-bar {
+  position: fixed; top: 0; left: 0;
+  height: 3px; z-index: 200;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+  transition: width 0.1s;
+  border-radius: 0 2px 2px 0;
+}
+
+/* Footer */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 40px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* 固定导航 */
+.fixed-nav {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+}
+
+.fixed-nav a {
+  padding: 10px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.3s;
+}
+
+.fixed-nav a:hover {
+  border-color: var(--accent);
+  background: rgba(59,130,246,0.15);
+}
+
+/* 响应式 */
+@media (max-width: 640px) {
+  nav .nav-links { display: none; }
+  .compare-grid { grid-template-columns: 1fr; }
+  .arch-grid { grid-template-columns: 1fr; }
+  .flow-step { gap: 12px; }
+  .download-section { padding: 32px 24px; }
+}
+</style>
 </head>
 <body>
-    <h1>🚀 github-pages Skill</h1>
-    
-    <p>通过 GitHub API 直接推送 HTML 页面到 GitHub Pages，无需安装 Git。</p>
-    
-    <div class="download-section">
-        <h2>📦 下载 Skill</h2>
-        <p>点击下方按钮下载 Skill 完整文件包</p>
-        <a href="https://github.com/qiujirui/skill-pages/raw/main/skill-github-pages.zip" class="download-btn" download>⬇️ 下载 skill-github-pages.zip</a>
+
+<div class="progress-bar" id="progressBar"></div>
+<canvas id="particles"></canvas>
+
+<nav>
+  <div class="logo">🚀 github-pages</div>
+  <div class="nav-links">
+    <a href="#why">为什么</a>
+    <a href="#flow">流程</a>
+    <a href="#arch">架构</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-icon">🌐</div>
+  <div class="hero-badge"><span class="dot"></span> Skill 已就绪</div>
+  <h1 class="section-title" style="opacity:1;transform:none;">
+    GitHub Pages<br>
+    <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">零安装部署方案</span>
+  </h1>
+  <p class="section-desc" style="opacity:1;transform:none;">
+    通过 GitHub API 直接推送页面到 GitHub Pages，<br>无需安装 Git，一条命令完成部署
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">0</div>
+      <div class="label">Git 安装</div>
     </div>
-
-    <h2>📋 目录</h2>
-    <ul>
-        <li><a href="#dependencies">前置依赖</a></li>
-        <li><a href="#usage">使用流程</a></li>
-        <li><a href="#config">配置说明</a></li>
-        <li><a href="#notes">注意事项</a></li>
-        <li><a href="#troubleshooting">故障排查</a></li>
-    </ul>
-
-    <h2 id="dependencies">前置依赖</h2>
-    <ul>
-        <li>Python 3.x + requests 包</li>
-        <li>GitHub 账号 + Personal Access Token</li>
-        <li>Token 需要 <code>repo</code> 权限</li>
-    </ul>
-
-    <h2 id="usage">使用流程</h2>
-    
-    <h3>1. 一键部署所有页面</h3>
-    <pre><code>python scripts/github_pages.py deploy-all</code></pre>
-    <p>自动完成：验证凭证 → 创建仓库 → 上传页面 → 更新首页 → 启用 Pages</p>
-
-    <h3>2. 上传单个文件</h3>
-    <pre><code>python scripts/github_pages.py deploy &lt;本地文件路径&gt; &lt;远程路径&gt;</code></pre>
-    <p>示例：</p>
-    <pre><code>python scripts/github_pages.py deploy D:/WorkBuddyOutput/2026-04/my-page.html my-page.html</code></pre>
-
-    <h3>3. 创建仓库</h3>
-    <pre><code>python scripts/github_pages.py create-repo</code></pre>
-
-    <h3>4. 启用 GitHub Pages</h3>
-    <pre><code>python scripts/github_pages.py enable-pages</code></pre>
-
-    <h3>5. 查看状态</h3>
-    <pre><code>python scripts/github_pages.py status</code></pre>
-
-    <h3>6. 列出远程文件</h3>
-    <pre><code>python scripts/github_pages.py list</code></pre>
-
-    <h3>7. 删除远程文件</h3>
-    <pre><code>python scripts/github_pages.py delete &lt;远程路径&gt;</code></pre>
-
-    <h2 id="config">配置说明</h2>
-    <table>
-        <tr>
-            <th>配置项</th>
-            <th>位置</th>
-            <th>说明</th>
-        </tr>
-        <tr>
-            <td>GITHUB_USERNAME</td>
-            <td>config.env</td>
-            <td>GitHub 用户名</td>
-        </tr>
-        <tr>
-            <td>GITHUB_TOKEN</td>
-            <td>config.env</td>
-            <td>Personal Access Token（需 repo 权限）</td>
-        </tr>
-        <tr>
-            <td>REPO_NAME</td>
-            <td>config.env</td>
-            <td>仓库名称（默认 skill-pages）</td>
-        </tr>
-    </table>
-
-    <div class="warning">
-        <strong>⚠️ 注意：</strong> config.env 文件中包含敏感凭证，请勿泄露。
+    <div class="hero-stat">
+      <div class="num">1</div>
+      <div class="label">API Token</div>
     </div>
-
-    <h2 id="notes">注意事项</h2>
-    <ul>
-        <li>Token 失效时需重新生成，到 GitHub Settings → Developer settings → Personal access tokens</li>
-        <li>GitHub Pages 构建需要 1-3 分钟生效</li>
-        <li>每次上传会自动检测文件是否存在，存在则更新</li>
-        <li>首页会自动扫描 Skill 页面并生成导航</li>
-    </ul>
-
-    <h2 id="troubleshooting">故障排查</h2>
-    <table>
-        <tr>
-            <th>问题</th>
-            <th>原因</th>
-            <th>解决</th>
-        </tr>
-        <tr>
-            <td>401 认证失败</td>
-            <td>Token 过期</td>
-            <td>重新生成 Token</td>
-        </tr>
-        <tr>
-            <td>404 仓库不存在</td>
-            <td>未创建仓库</td>
-            <td>先运行 create-repo</td>
-        </tr>
-        <tr>
-            <td>Pages 404 访问不到</td>
-            <td>build_type 用了 workflow</td>
-            <td>确保从分支直接部署，运行 enable-pages 重新配置</td>
-        </tr>
-        <tr>
-            <td>Pages 正在构建</td>
-            <td>构建需 1-3 分钟</td>
-            <td>等待后刷新</td>
-        </tr>
-        <tr>
-            <td>文件上传 409</td>
-            <td>并发冲突</td>
-            <td>稍后重试</td>
-        </tr>
-        <tr>
-            <td>API 限流</td>
-            <td>请求频率过高</td>
-            <td>等待 1 小时后重试</td>
-        </tr>
-    </table>
-
-    <h2>文件结构</h2>
-    <pre><code>github-pages/
-├── SKILL.md              # 技能说明
-├── config.env            # GitHub 凭证配置（需用户自行配置）
-└── scripts/
-    └── github_pages.py   # 核心脚本</code></pre>
-
-    <div class="nav">
-        <a href="#download">📦 下载</a>
-        <a href="https://qiujirui.github.io/skill-pages/">🏠 首页</a>
+    <div class="hero-stat">
+      <div class="num">∞</div>
+      <div class="label">永久地址</div>
     </div>
+  </div>
+  <div class="scroll-hint">
+    <span>向下滚动探索</span>
+    <span>↓</span>
+  </div>
+</section>
+
+<!-- 为什么 -->
+<section id="why">
+  <div class="section-tag">背景</div>
+  <h2 class="section-title">为什么需要这个 Skill？</h2>
+  <p class="section-desc">制作完精美的 HTML 页面后，如何让别人看到？</p>
+  <div class="compare-grid">
+    <div class="compare-card bad">
+      <div class="tag">❌ 传统方式</div>
+      <p>安装 Git → 配置 SSH → clone → add → commit → push → 等10分钟</p>
+    </div>
+    <div class="compare-card good">
+      <div class="tag">✅ 本 Skill</div>
+      <p>一条命令 → Python 调 API → 自动上传 → 秒级部署</p>
+    </div>
+  </div>
+</section>
+
+<!-- 流程 -->
+<section id="flow">
+  <div class="section-tag">Workflow</div>
+  <h2 class="section-title">5 步部署流程</h2>
+  <p class="section-desc">从验证到上线，全程自动化</p>
+  <div class="flow-container">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-content">
+        <h3>🔐 验证凭证</h3>
+        <p>检查 GitHub Token 权限是否满足 repo 访问要求</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-content">
+        <h3>📁 创建仓库</h3>
+        <p>通过 API 自动创建 GitHub 仓库（如果不存在）</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-content">
+        <h3>📤 上传文件</h3>
+        <p>将 HTML/CSS/JS 文件 base64 编码后通过 API 上传</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-content">
+        <h3>🏠 生成首页</h3>
+        <p>自动扫描仓库文件，生成导航首页 index.html</p>
+      </div>
+    </div>
+    <div class="flow-arrow">↓</div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-content">
+        <h3>🌐 启用 Pages</h3>
+        <p>调用 Pages API 启用 GitHub Pages，获取永久访问地址</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 架构 -->
+<section id="arch">
+  <div class="section-tag">Architecture</div>
+  <h2 class="section-title">核心架构</h2>
+  <p class="section-desc">Python + GitHub REST API 实现零依赖部署</p>
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="icon">🐍</div>
+      <div class="name">Python + requests</div>
+      <div class="desc">HTTP 客户端调用 API</div>
+    </div>
+    <div class="arch-card">
+      <div class="icon">🔐</div>
+      <div class="name">GitHub REST API</div>
+      <div class="desc">v3 接口，Token 认证</div>
+    </div>
+    <div class="arch-card">
+      <div class="icon">📦</div>
+      <div class="name">base64 编码</div>
+      <div class="desc">文件内容编码上传</div>
+    </div>
+  </div>
+  <div class="arch-connector">⬇</div>
+  <div class="arch-grid">
+    <div class="arch-card">
+      <div class="icon">📄</div>
+      <div class="name">Contents API</div>
+      <div class="desc">文件 CRUD 操作</div>
+    </div>
+    <div class="arch-card">
+      <div class="icon">🌐</div>
+      <div class="name">Pages API</div>
+      <div class="desc">启停 GitHub Pages</div>
+    </div>
+    <div class="arch-card">
+      <div class="icon">🏠</div>
+      <div class="name">首页生成器</div>
+      <div class="desc">自动扫描生成导航</div>
+    </div>
+  </div>
+</section>
+
+<!-- 命令 -->
+<section id="commands">
+  <div class="section-tag">Commands</div>
+  <h2 class="section-title">支持的命令</h2>
+  <div class="cmd-grid">
+    <div class="cmd-card">
+      <h3>🚀 deploy-all</h3>
+      <p>一键部署：验证 → 创建仓库 → 上传所有页面 → 生成首页 → 启用 Pages</p>
+      <div class="code-block">
+        <span class="cmd">python</span> scripts/github_pages.py <span class="flag">deploy-all</span>
+      </div>
+    </div>
+    <div class="cmd-card">
+      <h3>📤 deploy</h3>
+      <p>上传单个文件到指定路径</p>
+      <div class="code-block">
+        <span class="cmd">python</span> scripts/github_pages.py <span class="flag">deploy</span> <span class="path">&lt;file&gt;</span> <span class="path">&lt;path&gt;</span>
+      </div>
+    </div>
+    <div class="cmd-card">
+      <h3>📊 status</h3>
+      <p>查看部署状态：认证、仓库、Pages 是否正常</p>
+      <div class="code-block">
+        <span class="cmd">python</span> scripts/github_pages.py <span class="flag">status</span>
+      </div>
+    </div>
+    <div class="cmd-card">
+      <h3>📋 list / delete</h3>
+      <p>列出或删除远程文件</p>
+      <div class="code-block">
+        <span class="cmd">python</span> scripts/github_pages.py <span class="flag">list</span><br>
+        <span class="cmd">python</span> scripts/github_pages.py <span class="flag">delete</span> <span class="path">&lt;path&gt;</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 对比 -->
+<section id="compare">
+  <div class="section-tag">Compare</div>
+  <h2 class="section-title">三种部署方案对比</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>特性</th>
+        <th>GitHub Pages</th>
+        <th>ngrok 隧道</th>
+        <th>本地预览</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>地址持久性</td>
+        <td class="yes">✅ 永久</td>
+        <td class="mid">⚠️ 每次重启变化</td>
+        <td class="no">❌ 仅本机</td>
+      </tr>
+      <tr>
+        <td>外部访问</td>
+        <td class="yes">✅ 任何人</td>
+        <td class="yes">✅ 任何人</td>
+        <td class="no">❌ 仅自己</td>
+      </tr>
+      <tr>
+        <td>HTTPS</td>
+        <td class="yes">✅ 自带</td>
+        <td class="yes">✅ 自带</td>
+        <td class="mid">⚠️ 无</td>
+      </tr>
+      <tr>
+        <td>依赖本地服务</td>
+        <td class="yes">✅ 不依赖</td>
+        <td class="no">❌ 需要运行</td>
+        <td class="no">❌ 需要运行</td>
+      </tr>
+      <tr>
+        <td>生效速度</td>
+        <td class="mid">⚠️ 1-3 分钟</td>
+        <td class="yes">✅ 即时</td>
+        <td class="yes">✅ 即时</td>
+      </tr>
+      <tr>
+        <td>适用场景</td>
+        <td>正式发布</td>
+        <td>临时预览</td>
+        <td>本地调试</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-tag">FAQ</div>
+  <h2 class="section-title">常见问题</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>需要安装 Git 吗？</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">不需要！本 Skill 完全通过 GitHub REST API 操作，用 Python 的 requests 库直接上传文件，零安装。</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Token 权限需要哪些？</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">需要 <code>repo</code> 权限（完整仓库读写）。在 GitHub Settings → Developer settings → Personal access tokens 生成。</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Pages 部署后多久生效？</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">通常 1-3 分钟。GitHub 需要构建和部署页面，可以在仓库 Settings → Pages 查看构建状态。</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>⚠️ Pages 一直 404 怎么办？</span>
+        <span class="faq-arrow">▼</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">最常见原因：创建 Pages 时用了 workflow 模式，但没有上传 Actions 配置文件。解决：删除旧 Pages 配置，重新用"从分支直接部署"模式创建，1-3 分钟后生效。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 触发词 -->
+<section id="triggers">
+  <div class="section-tag">Triggers</div>
+  <h2 class="section-title">触发词汇</h2>
+  <div class="trigger-cloud">
+    <div class="trigger-tag">部署到GitHub</div>
+    <div class="trigger-tag">GitHub Pages</div>
+    <div class="trigger-tag">推送到GitHub</div>
+    <div class="trigger-tag">部署页面</div>
+    <div class="trigger-tag">发布页面</div>
+    <div class="trigger-tag">上线</div>
+    <div class="trigger-tag">deploy</div>
+    <div class="trigger-tag">发布到线上</div>
+  </div>
+</section>
+
+<!-- 下载 -->
+<section id="download">
+  <div class="section-tag">Download</div>
+  <h2 class="section-title">下载 Skill</h2>
+  <div class="download-section">
+    <p>点击下方按钮下载完整 Skill 文件包</p>
+    <a href="https://github.com/qiujirui/skill-pages/raw/main/skill-github-pages.zip" class="download-btn">
+      📦 下载 skill-github-pages.zip
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>GitHub Pages Skill · 由小皮 🐾 为 Jerry 老板打造</p>
+  <p style="margin-top:8px;"><a href="https://qiujirui.github.io/skill-pages/">← 返回 Skill 首页</a></p>
+</footer>
+
+<!-- 固定导航 -->
+<div class="fixed-nav">
+  <a href="https://qiujirui.github.io/skill-pages/">🏠 首页</a>
+  <a href="#download">📦 下载</a>
+</div>
+
+<script>
+// 粒子背景
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+  particles = [];
+  const count = Math.floor(window.innerWidth * window.innerHeight / 15000);
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 2 + 0.5,
+      speedX: (Math.random() - 0.5) * 0.3,
+      speedY: (Math.random() - 0.5) * 0.3,
+      opacity: Math.random() * 0.5 + 0.1
+    });
+  }
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(59, 130, 246, ${p.opacity})`;
+    ctx.fill();
+    p.x += p.speedX;
+    p.y += p.speedY;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+  });
+
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(59, 130, 246, ${0.08 * (1 - dist / 120)})`;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles);
+}
+
+resizeCanvas();
+createParticles();
+drawParticles();
+window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+
+// 滚动观察器
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+// 进度条
+window.addEventListener('scroll', () => {
+  const scrollTop = document.documentElement.scrollTop;
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / scrollHeight) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+});
+
+// FAQ 手风琴
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-answer').style.maxHeight = '0';
+  });
+
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.style.maxHeight = answer.scrollHeight + 'px';
+  }
+}
+
+// 触发词动画延迟
+const triggerTags = document.querySelectorAll('.trigger-tag');
+triggerTags.forEach((tag, i) => {
+  tag.style.transitionDelay = (0.1 + i * 0.05) + 's';
+});
+
+// 导航高亮
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 200;
+    if (window.scrollY >= top) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current ? '#3b82f6' : '';
+  });
+});
+</script>
+
 </body>
 </html>
