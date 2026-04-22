@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新能源车电池充电指南 | 为什么充到80%更健康</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --accent-green: #00d4aa;
+            --accent-blue: #00a8ff;
+            --accent-orange: #ff6b35;
+            --accent-red: #ff3366;
+            --accent-purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0b0;
+            --border: rgba(255,255,255,0.1);
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        
+        /* 粒子背景 */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10,10,15,0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-green);
+        }
+        
+        /* 进度条 */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            z-index: 101;
+            width: 0%;
+            transition: width 0.1s;
+        }
+        
+        /* 章节通用 */
+        section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* Hero区域 */
+        #hero {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 50% 50%, rgba(0,212,170,0.1) 0%, transparent 50%),
+                        radial-gradient(ellipse at 80% 20%, rgba(0,168,255,0.08) 0%, transparent 40%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .hero-content {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0,212,170,0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 30px;
+            font-size: 12px;
+            color: var(--accent-green);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        
+        .hero-title {
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(16px, 2vw, 24px);
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 60px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--accent-green);
+            animation: countUp 2s ease-out;
+        }
+        
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+        
+        /* 电池可视化 */
+        .battery-section {
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 100%);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-tag {
+            font-size: 12px;
+            color: var(--accent-blue);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .battery-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .battery-container {
+            position: relative;
+            width: 200px;
+            height: 360px;
+        }
+        
+        .battery {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #333;
+            border-radius: 20px;
+            padding: 8px;
+            position: relative;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .battery::before {
+            content: '';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 16px;
+            background: #333;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .battery-fill {
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(180deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+            border-radius: 12px;
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            width: calc(100% - 16px);
+            transition: height 1s ease, background 0.5s ease;
+            box-shadow: 0 0 30px rgba(0,212,170,0.3);
+        }
+        
+        .battery-fill.danger {
+            background: linear-gradient(180deg, var(--accent-orange) 0%, var(--accent-red) 100%);
+            box-shadow: 0 0 30px rgba(255,51,102,0.3);
+        }
+        
+        .battery-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 900;
+            z-index: 10;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .battery-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .control-btn {
+            padding: 15px 30px;
+            border: 2px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .control-btn:hover {
+            border-color: var(--accent-green);
+            background: rgba(0,212,170,0.1);
+            transform: translateX(5px);
+        }
+        
+        .control-btn.active {
+            border-color: var(--accent-green);
+            background: rgba(0,212,170,0.15);
+        }
+        
+        .control-btn.danger:hover {
+            border-color: var(--accent-red);
+            background: rgba(255,51,102,0.1);
+        }
+        
+        .control-btn.danger.active {
+            border-color: var(--accent-red);
+            background: rgba(255,51,102,0.15);
+        }
+        
+        /* 原理说明卡片 */
+        .principle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .principle-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .principle-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .principle-card:hover {
+            border-color: var(--accent-green);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .principle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .principle-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .principle-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .principle-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .principle-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        /* 对比区域 */
+        .comparison-section {
+            background: var(--bg-card);
+        }
+        
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .comparison-card {
+            background: var(--bg-dark);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comparison-card.good {
+            border: 2px solid var(--accent-green);
+        }
+        
+        .comparison-card.bad {
+            border: 2px solid var(--accent-red);
+        }
+        
+        .comparison-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .comparison-card.good .comparison-badge {
+            background: rgba(0,212,170,0.2);
+            color: var(--accent-green);
+        }
+        
+        .comparison-card.bad .comparison-badge {
+            background: rgba(255,51,102,0.2);
+            color: var(--accent-red);
+        }
+        
+        .comparison-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .comparison-list {
+            list-style: none;
+        }
+        
+        .comparison-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .comparison-list .icon {
+            font-size: 18px;
+        }
+        
+        /* 建议区域 */
+        .tips-section {
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+        }
+        
+        .tips-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 60px auto 0;
+        }
+        
+        .tips-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-green), var(--accent-blue));
+        }
+        
+        .tip-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s;
+        }
+        
+        .tip-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .tip-number {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-card);
+            border: 2px solid var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-green);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tip-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 25px;
+            flex: 1;
+        }
+        
+        .tip-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .tip-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* 电池类型对比 */
+        .battery-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .battery-type-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .battery-type-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .battery-type-card.nmc {
+            border-left: 4px solid var(--accent-purple);
+        }
+        
+        .battery-type-card.lfp {
+            border-left: 4px solid var(--accent-orange);
+        }
+        
+        .battery-type-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .battery-type-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .nmc .battery-type-icon {
+            background: rgba(168,85,247,0.2);
+        }
+        
+        .lfp .battery-type-icon {
+            background: rgba(255,107,53,0.2);
+        }
+        
+        .battery-type-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .battery-type-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .battery-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .spec-item {
+            background: rgba(255,255,255,0.03);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        
+        .spec-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        
+        .spec-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .charge-recommendation {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .charge-recommendation.good {
+            border-left: 3px solid var(--accent-green);
+        }
+        
+        .charge-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        
+        .charge-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        
+        /* 总结区域 */
+        .summary-section {
+            background: radial-gradient(ellipse at 50% 50%, rgba(0,212,170,0.08) 0%, transparent 50%);
+            text-align: center;
+        }
+        
+        .summary-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 50px;
+            max-width: 800px;
+            margin: 40px auto 0;
+            position: relative;
+        }
+        
+        .summary-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .summary-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .summary-text {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 2;
+        }
+        
+        .summary-highlight {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            padding: 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        /* 滚动动画 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            section {
+                padding: 80px 20px;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .battery-demo {
+                flex-direction: column;
+            }
+            
+            .tips-timeline::before {
+                left: 20px;
+            }
+            
+            .tip-number {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 进度条 -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- 粒子背景 -->
+    <canvas id="particles-canvas"></canvas>
+    
+    <!-- 导航 -->
+    <nav>
+        <div class="logo">
+            <span class="logo-icon">🔋</span>
+            <span>EV Battery Guide</span>
+        </div>
+        <div class="nav-links">
+            <a href="#principle">原理</a>
+            <a href="#comparison">对比</a>
+            <a href="#tips">建议</a>
+            <a href="#types">电池类型</a>
+        </div>
+    </nav>
+    
+    <!-- Hero区域 -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🔬 科学充电指南</div>
+            <h1 class="hero-title">为什么充到80%<br>对电池更健康？</h1>
+            <p class="hero-subtitle">深入了解新能源车锂电池的工作原理，掌握延长电池寿命的科学充电方法</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">20%</div>
+                    <div class="stat-label">寿命延长</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">80%</div>
+                    <div class="stat-label">日常建议电量</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8年</div>
+                    <div class="stat-label">健康使用周期</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 电池可视化演示 -->
+    <section class="battery-section" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Interactive Demo</div>
+                <h2 class="section-title">点击体验不同电量状态</h2>
+                <p class="section-desc">观察电池在不同充电水平下的内部状态和长期影响</p>
+            </div>
+            
+            <div class="battery-demo">
+                <div class="battery-container">
+                    <div class="battery">
+                        <div class="battery-fill" id="batteryFill"></div>
+                        <div class="battery-label" id="batteryLabel">50%</div>
+                    </div>
+                </div>
+                
+                <div class="battery-controls">
+                    <button class="control-btn active" onclick="setBattery(50)">
+                        <span>⚡</span> 日常最佳 (50%)
+                    </button>
+                    <button class="control-btn" onclick="setBattery(80)">
+                        <span>✅</span> 日常上限 (80%)
+                    </button>
+                    <button class="control-btn danger" onclick="setBattery(100)">
+                        <span>⚠️</span> 满电状态 (100%)
+                    </button>
+                    <button class="control-btn" onclick="setBattery(20)">
+                        <span>🔋</span> 低电量 (20%)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 原理说明 -->
+    <section id="principle">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">How It Works</div>
+                <h2 class="section-title">锂电池的工作原理</h2>
+                <p class="section-desc">了解为什么高电量会给电池带来压力</p>
+            </div>
+            
+            <div class="principle-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🧪</div>
+                    <h3 class="principle-title">高电压应力</h3>
+                    <p class="principle-desc">当电池充到100%时，正极材料处于高电压状态，这会加速电解液的分解，导致电池内部产生气体，长期会损害电池结构。</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">⚡</div>
+                    <h3 class="principle-title">锂离子堆积</h3>
+                    <p class="principle-desc">满电时所有锂离子都挤在负极（石墨层间），造成物理应力。长期保持这种状态会导致负极结构损伤，容量下降。</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🌡️</div>
+                    <h3 class="principle-title">热失控风险</h3>
+                    <p class="principle-desc">高电量状态下电池更不稳定，如果在高温环境停放，会加速副反应，甚至增加热失控（自燃）的风险。</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">📉</div>
+                    <h3 class="principle-title">SEI膜增厚</h3>
+                    <p class="principle-desc">高电压会加速SEI（固体电解质界面膜）的生长，这层膜越厚，可用的锂就越少，电池容量随之衰减。</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🔄</div>
+                    <h3 class="principle-title">循环寿命</h3>
+                    <p class="principle-desc">研究表明，电池在30%-70%区间循环时寿命最长。浅充浅放（每天充到80%）比每次都充满更能延长使用寿命。</p>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">⏰</div>
+                    <h3 class="principle-title">日历寿命</h3>
+                    <p class="principle-desc">即使不使用，长期保持100%电量也会加速电池老化。如果车辆要停放超过一周，建议保持50-60%电量。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 对比区域 -->
+    <section class="comparison-section" id="comparison">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Comparison</div>
+                <h2 class="section-title">充电习惯对比</h2>
+                <p class="section-desc">不同充电策略对电池寿命的影响</p>
+            </div>
+            
+            <div class="comparison-container">
+                <div class="comparison-card good">
+                    <span class="comparison-badge">✅ 推荐</span>
+                    <h3 class="comparison-title"><span>🌿</span> 科学充电</h3>
+                    <ul class="comparison-list">
+                        <li><span class="icon">✓</span> 日常充电至80%，长途前再充满</li>
+                        <li><span class="icon">✓</span> 电量低于20%时及时充电</li>
+                        <li><span class="icon">✓</span> 优先使用慢充（家用充电桩）</li>
+                        <li><span class="icon">✓</span> 避免长期满电停放</li>
+                        <li><span class="icon">✓</span> 电池寿命延长约20%</li>
+                        <li><span class="icon">✓</span> 8年后容量保持率>85%</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card bad">
+                    <span class="comparison-badge">❌ 避免</span>
+                    <h3 class="comparison-title"><span>⚠️</span> 不良习惯</h3>
+                    <ul class="comparison-list">
+                        <li><span class="icon">✗</span> 每次都充到100%</li>
+                        <li><span class="icon">✗</span> 经常把电量用到<10%</li>
+                        <li><span class="icon">✗</span> 长期依赖快充</li>
+                        <li><span class="icon">✗</span> 满电状态长期停放</li>
+                        <li><span class="icon">✗</span> 电池衰减速度加快</li>
+                        <li><span class="icon">✗</span> 8年后容量可能<70%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 充电建议 -->
+    <section class="tips-section" id="tips">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Best Practices</div>
+                <h2 class="section-title">科学充电6步法</h2>
+                <p class="section-desc">简单实用的日常充电建议</p>
+            </div>
+            
+            <div class="tips-timeline">
+                <div class="tip-item">
+                    <div class="tip-number">1</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">设置充电上限</h4>
+                        <p class="tip-desc">在车机系统或APP中将日常充电限制设为80%或90%。特斯拉可在"充电"设置中调整，其他品牌类似。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-number">2</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">避免过放</h4>
+                        <p class="tip-desc">尽量在电量剩余20%以上时充电，避免经常用到<10%。深度放电会加速电池衰减。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-number">3</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">优先慢充</h4>
+                        <p class="tip-desc">日常以家用慢充为主，快充仅作应急。慢充对电池更友好，且能充得更"实"。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-number">4</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">长途前再充满</h4>
+                        <p class="tip-desc">需要跑长途时，可充满至100%，但建议规划好行程，充满后尽快出发，不要让电池长期处于满电状态。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-number">5</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">注意停放环境</h4>
+                        <p class="tip-desc">高温是电池大敌。夏天尽量停在阴凉处，避免暴晒。如果长期停放，保持50-60%电量最佳。</p>
+                    </div>
+                </div>
+                
+                <div class="tip-item">
+                    <div class="tip-number">6</div>
+                    <div class="tip-content">
+                        <h4 class="tip-title">定期满充校准</h4>
+                        <p class="tip-desc">三元锂电池每1-2个月充满一次校准电量显示；磷酸铁锂电池建议每周至少充满一次。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 电池类型对比 -->
+    <section id="types">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-tag">Battery Types</div>
+                <h2 class="section-title">不同电池类型的充电建议</h2>
+                <p class="section-desc">三元锂 vs 磷酸铁锂，充电策略有所不同</p>
+            </div>
+            
+            <div class="battery-types">
+                <div class="battery-type-card nmc">
+                    <div class="battery-type-header">
+                        <div class="battery-type-icon">🔋</div>
+                        <div>
+                            <div class="battery-type-name">三元锂电池 (NCM/NCA)</div>
+                            <div class="battery-type-subtitle">Tesla、蔚来、小鹏等主流品牌</div>
+                        </div>
+                    </div>
+                    
+                    <div class="battery-specs">
+                        <div class="spec-item">
+                            <div class="spec-label">能量密度</div>
+                            <div class="spec-value">高 (250Wh/kg+)</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">低温性能</div>
+                            <div class="spec-value">较好</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">循环寿命</div>
+                            <div class="spec-value">1000-2000次</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">成本</div>
+                            <div class="spec-value">较高</div>
+                        </div>
+                    </div>
+                    
+                    <div class="charge-recommendation good">
+                        <div class="charge-label">官方建议</div>
+                        <div class="charge-value">日常充至80%，长途前充100%</div>
+                    </div>
+                    <p style="margin-top:15px;color:var(--text-secondary);font-size:14px;">
+                        三元锂对高电压更敏感，日常限制在80%能显著延长寿命。特斯拉官方数据显示，保持90%以内可延长循环寿命约20%。
+                    </p>
+                </div>
+                
+                <div class="battery-type-card lfp">
+                    <div class="battery-type-header">
+                        <div class="battery-type-icon">⚡</div>
+                        <div>
+                            <div class="battery-type-name">磷酸铁锂电池 (LFP)</div>
+                            <div class="battery-type-subtitle">比亚迪刀片电池、特斯拉标续版</div>
+                        </div>
+                    </div>
+                    
+                    <div class="battery-specs">
+                        <div class="spec-item">
+                            <div class="spec-label">能量密度</div>
+                            <div class="spec-value">中 (160Wh/kg)</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">低温性能</div>
+                            <div class="spec-value">一般</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">循环寿命</div>
+                            <div class="spec-value">3000+次</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">成本</div>
+                            <div class="spec-value">较低</div>
+                        </div>
+                    </div>
+                    
+                    <div class="charge-recommendation good">
+                        <div class="charge-label">官方建议</div>
+                        <div class="charge-value">每周至少充满1次，日常可充100%</div>
+                    </div>
+                    <p style="margin-top:15px;color:var(--text-secondary);font-size:14px;">
+                        磷酸铁锂更耐满充，但由于电压曲线平坦，需要定期充满来校准电量显示，否则可能出现"跳电"现象。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 总结 -->
+    <section class="summary-section" id="summary">
+        <div class="container">
+            <div class="summary-box">
+                <div class="summary-icon">💡</div>
+                <h2 class="summary-title">一句话总结</h2>
+                <p class="summary-text">
+                    日常通勤<strong class="summary-highlight">充到80%</strong>是最佳平衡点——既保证足够的续航里程，又能<span class="summary-highlight">延长电池寿命约20%</span>。长途旅行前再充满，用完尽快降到日常区间。<br><br>
+                    记住口诀：<strong class="summary-highlight">"日常八十长途百，别让满电停太久"</strong>
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <p>© 2026 EV Battery Guide · 科学用车，延长电池寿命</p>
+        <p style="margin-top:10px;font-size:12px;">数据来源：特斯拉官方指南、宁德时代技术白皮书、Journal of Power Sources</p>
+    </footer>
+    
+    <script>
+        // 粒子背景
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        
+        function createParticles() {
+            particles = [];
+            const count = Math.floor(window.innerWidth * window.innerHeight / 15000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    speedY: (Math.random() - 0.5) * 0.3,
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+        
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 212, 170, ${p.opacity})`;
+                ctx.fill();
+                
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+            });
+            
+            // 连线
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 212, 170, ${0.1 * (1 - dist / 100)})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(drawParticles);
+        }
+        
+        resizeCanvas();
+        createParticles();
+        drawParticles();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
+        
+        // 电池交互
+        function setBattery(level) {
+            const fill = document.getElementById('batteryFill');
+            const label = document.getElementById('batteryLabel');
+            const buttons = document.querySelectorAll('.control-btn');
+            
+            fill.style.height = level + '%';
+            label.textContent = level + '%';
+            
+            if (level === 100) {
+                fill.classList.add('danger');
+            } else {
+                fill.classList.remove('danger');
+            }
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.control-btn').classList.add('active');
+        }
+        
+        // 进度条
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        });
+        
+        // 滚动动画
+        const observerOptions = { threshold: 0.1 };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.principle-card, .tip-item, .fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
