@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TKE Deploy Skill | 一键部署到腾讯云</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --card: rgba(30, 41, 59, 0.8);
+  --border: rgba(59, 130, 246, 0.2);
+  --code-bg: #1e293b;
+}
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10, 14, 26, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav .logo {
+  font-size: 20px; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+
+nav .back {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+nav .back:hover { color: var(--accent); }
+
+.hero {
+  min-height: 60vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 120px 24px 60px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(59,130,246,0.15) 0%, transparent 60%);
+  text-align: center;
+}
+
+.hero-icon {
+  font-size: 80px;
+  margin-bottom: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+}
+
+.hero-meta {
+  display: flex; gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-tag {
+  padding: 8px 20px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 32px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+}
+
+.download-btn .icon {
+  font-size: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.section {
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+
+.section-title .num {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.card p, .card li {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card code {
+  background: var(--code-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--accent3);
+}
+
+.pre-code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 16px 0;
+}
+
+.pre-code code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.tip {
+  border-left: 4px solid var(--orange);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.tip strong {
+  color: var(--orange);
+}
+
+.success-box {
+  border-left: 4px solid var(--green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.success-box strong {
+  color: var(--green);
+}
+
+.error-box {
+  border-left: 4px solid var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.error-box strong {
+  color: var(--red);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+thead {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+td {
+  color: var(--text-dim);
+}
+
+.arch-diagram {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+footer .brand {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 22px; }
+  .arch-diagram { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <span>🐾</span>
+    <span>WorkBuddy Skills</span>
+  </a>
+  <a href="index.html" class="back">← 返回技能库</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-icon">☁️</div>
+  <h1>TKE Deploy</h1>
+  <p>一键部署 Web 服务到腾讯云 TKE 集群。零运维、零配置，上传即上线。</p>
+  <div class="hero-meta">
+    <span class="hero-tag">部署</span>
+    <span class="hero-tag">K8s</span>
+    <span class="hero-tag">腾讯云</span>
+  </div>
+  <a href="downloads/tke-skill.zip" class="download-btn" download>
+    <span class="icon">📦</span>
+    <span>下载技能包 (tke-skill.zip)</span>
+  </a>
+</div>
+
+<div class="container">
+
+  <!-- 概述 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">1</span>概述</h2>
+    <div class="card">
+      <p>TKE Deploy Skill 是 WorkBuddy 与顶新集团数智科技中心联合打造的内部部署平台，面向前端/后端/全栈工程提供一键上云能力。</p>
+      <p style="margin-top:12px">你只需准备好工程文件，WorkBuddy 会自动完成分析、打包、上传、构建、部署全流程，最终返回一个可直接访问的公网地址。</p>
+    </div>
+  </div>
+
+  <!-- 支持的架构 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">2</span>支持的架构</h2>
+    <table>
+      <thead>
+        <tr><th>架构</th><th>说明</th><th>容器数</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>纯前端</td><td>nginx:alpine 托管静态页面</td><td>1</td></tr>
+        <tr><td>纯后端</td><td>Python/Node/Java API 服务</td><td>1</td></tr>
+        <tr><td>前端 + SQLite</td><td>前端容器合并 SQLite</td><td>1</td></tr>
+        <tr><td>前端 + 后端 + SQLite</td><td>nginx 反向代理 + PVC 持久化</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 目录结构 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">3</span>标准工程目录结构</h2>
+    <div class="card">
+      <p><strong>纯前端（最常用）</strong></p>
+      <div class="pre-code"><code>my-project/
+├── project.yaml      # 工程配置文件（必需）
+├── README.md         # 工程说明（可选）
+└── frontend/         # 前端代码目录
+    ├── index.html
+    └── ...</code></div>
+    </div>
+    <div class="card">
+      <p><strong>前端 + 后端 + SQLite（推荐架构）</strong></p>
+      <div class="pre-code"><code>my-project/
+├── project.yaml
+├── frontend/
+│   ├── index.html
+│   └── ...
+├── backend/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── ...
+└── database/
+    └── init.sql</code></div>
+    </div>
+    <div class="tip">
+      <strong>⚠️ 关键提醒</strong>：目录名必须严格为 <code>frontend</code> / <code>backend</code> / <code>database</code>，且 <code>project.yaml</code> 必须在 zip 包根目录！
+    </div>
+  </div>
+
+  <!-- project.yaml -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">4</span>project.yaml 配置</h2>
+    <div class="card">
+      <p><strong>纯前端示例</strong></p>
+      <div class="pre-code"><code>name: my-app
+version: 1.0.0
+description: 我的前端应用
+
+components:
+  - name: frontend
+    type: frontend
+    framework: static
+    port: 80
+    path: ./frontend</code></div>
+    </div>
+    <div class="card">
+      <p><strong>前端 + 后端 + SQLite 示例</strong></p>
+      <div class="pre-code"><code>name: fullstack-app
+version: 1.0.0
+description: 全栈应用
+
+components:
+  - name: frontend
+    type: frontend
+    framework: static
+    port: 80
+    path: ./frontend
+
+  - name: backend
+    type: backend
+    framework: flask
+    version: 3.9
+    port: 5000
+    path: ./backend
+
+  - name: database
+    type: database
+    framework: sqlite
+    path: ./database
+    storage: 1Gi</code></div>
+    </div>
+  </div>
+
+  <!-- 部署流程 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">5</span>部署流程</h2>
+    <div class="arch-diagram">用户请求
+    ↓
+检查 JWT Token → 未找到 → 提示联系管理员
+    ↓
+调用 /admin/create-namespace → 确保命名空间就绪
+    ↓
+分析工程类型（前端/后端/数据库）
+    ↓
+验证工程格式 → 不符合 → 自动调整
+    ↓
+打包工程为 zip → 上传到网关
+    ↓
+调用 /services/deploy → 触发云端构建
+    ↓
+Docker build → push 到 TCR → 创建 K8s 资源
+    ↓
+返回公网访问地址</div>
+  </div>
+
+  <!-- 踩坑记录 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">6</span>实战经验与踩坑记录</h2>
+
+    <div class="error-box">
+      <strong>❌ 问题：Docker build failed for frontend</strong><br>
+      使用 PowerShell Compress-Archive 打包后上传，服务端构建失败。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：改用 Python zipfile 打包</strong><br>
+      PowerShell 打的包格式有差异，必须用 Python <code>zipfile.ZipFile</code> 以 <code>ZIP_DEFLATED</code> 方式打包。
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：Windows ACP 模式限制？</strong><br>
+      误以为 Windows ACP 会阻止 Python 执行 multipart 上传。
+    </div>
+    <div class="success-box">
+      <strong>✅ 事实：Python urllib 完全可用</strong><br>
+      ACP 模式不限制 Python 的网络请求，<code>urllib.request</code> 在 ACP 下可以正常完成 upload + deploy。
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：部署接口返回 400 / 404</strong><br>
+      参数字段名写错，或缺少 file_path。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：严格对照 API 字段</strong>
+      <div class="pre-code" style="margin:8px 0"><code>上传接口字段：file, service_name
+部署接口字段：file_path（上传返回的）, service_name</code></div>
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：工程目录放错位置</strong><br>
+      HTML 文件直接放在 zip 根目录，没有 frontend/ 子目录。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：严格标准化目录</strong><br>
+      所有前端文件必须放在 <code>frontend/</code> 目录下，<code>project.yaml</code> 在根目录。
+    </div>
+  </div>
+
+  <!-- API 端点 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">7</span>网关 API 端点</h2>
+    <p style="color:var(--text-dim);margin-bottom:16px">网关地址：<code>https://aitools-api.dicos.com.cn/api/v1</code></p>
+    <table>
+      <thead>
+        <tr><th>端点</th><th>方法</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>/auth/verify</td><td>GET</td><td>验证 Token 有效性</td></tr>
+        <tr><td>/admin/create-namespace</td><td>POST</td><td>创建用户命名空间</td></tr>
+        <tr><td>/services/upload</td><td>POST</td><td>上传代码包（multipart）</td></tr>
+        <tr><td>/services/deploy</td><td>POST</td><td>触发构建和部署</td></tr>
+        <tr><td>/services</td><td>GET</td><td>列出所有服务</td></tr>
+        <tr><td>/services/&lt;name&gt;</td><td>GET</td><td>获取服务详情</td></tr>
+        <tr><td>/services/&lt;name&gt;/logs</td><td>GET</td><td>获取服务日志</td></tr>
+        <tr><td>/services/&lt;name&gt;</td><td>DELETE</td><td>删除服务</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 获取帮助 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">8</span>获取帮助</h2>
+    <div class="card">
+      <p>📧 邮件：qijun_tang@dicos.com.cn</p>
+      <p>💬 微信：13681949855</p>
+      <p style="margin-top:12px">如需申请 JWT Token 或反馈服务端问题，请联系管理员。</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="brand">🐾 WorkBuddy Skills</div>
+  <p>TKE Deploy Skill v3.1</p>
+  <p>为 Jerry 老板打造的专属 AI 助手技能库</p>
+</footer>
+
+</body>
+</html>
