@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Gen Skill | AI 图像生成</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e1a;
+  --bg2: #111827;
+  --accent: #3b82f6;
+  --accent2: #8b5cf6;
+  --accent3: #06b6d4;
+  --green: #10b981;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --card: rgba(30, 41, 59, 0.8);
+  --border: rgba(59, 130, 246, 0.2);
+  --code-bg: #1e293b;
+}
+
+body {
+  font-family: 'Noto Sans SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 32px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10, 14, 26, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav .logo {
+  font-size: 20px; font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+
+nav .back {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+nav .back:hover { color: var(--accent); }
+
+.hero {
+  min-height: 60vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 120px 24px 60px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(139,92,246,0.15) 0%, transparent 60%);
+  text-align: center;
+}
+
+.hero-icon {
+  font-size: 80px;
+  margin-bottom: 24px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.hero h1 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+}
+
+.hero-meta {
+  display: flex; gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-tag {
+  padding: 8px 20px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--accent2);
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 32px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+}
+
+.download-btn .icon {
+  font-size: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.section {
+  margin-bottom: 60px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+
+.section-title .num {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent3));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: var(--accent2);
+}
+
+.card p, .card li {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card code {
+  background: var(--code-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--accent3);
+}
+
+.pre-code {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 16px 0;
+}
+
+.pre-code code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.tip {
+  border-left: 4px solid var(--orange);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.tip strong {
+  color: var(--orange);
+}
+
+.success-box {
+  border-left: 4px solid var(--green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.success-box strong {
+  color: var(--green);
+}
+
+.error-box {
+  border-left: 4px solid var(--red);
+  background: rgba(239, 68, 68, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.error-box strong {
+  color: var(--red);
+}
+
+.warning-box {
+  border-left: 4px solid var(--orange);
+  background: rgba(245, 158, 11, 0.1);
+  padding: 16px 20px;
+  border-radius: 0 12px 12px 0;
+  margin: 16px 0;
+}
+
+.warning-box strong {
+  color: var(--orange);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+}
+
+thead {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+th, td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  font-weight: 600;
+  color: var(--accent2);
+}
+
+td {
+  color: var(--text-dim);
+}
+
+footer {
+  text-align: center;
+  padding: 60px 24px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+footer .brand {
+  font-size: 24px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 32px; }
+  .section-title { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <span>🐾</span>
+    <span>WorkBuddy Skills</span>
+  </a>
+  <a href="index.html" class="back">← 返回技能库</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-icon">🎨</div>
+  <h1>Image Gen</h1>
+  <p>基于 GPT-Image 2 的 AI 图像生成服务。文生图、单图编辑、多图合成，企业内部自助申请，零配置即用。</p>
+  <div class="hero-meta">
+    <span class="hero-tag">AI 生成</span>
+    <span class="hero-tag">图像编辑</span>
+    <span class="hero-tag">多平台</span>
+  </div>
+  <a href="downloads/image-gen.zip" class="download-btn" download>
+    <span class="icon">📦</span>
+    <span>下载技能包 (image-gen.zip)</span>
+  </a>
+</div>
+
+<div class="container">
+
+  <!-- 概述 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">1</span>概述</h2>
+    <div class="card">
+      <p>Image Gen Skill 为企业员工提供基于内部 LLM 网关的 AI 图像生成服务，核心聚焦于 <strong>GPT-Image 2</strong> 图像生成。</p>
+      <p style="margin-top:12px">核心能力：</p>
+      <ul>
+        <li>📋 <strong>自助申请</strong>：员工无需管理员介入，独立完成 API Key 申请</li>
+        <li>🎨 <strong>图像生成</strong>：文生图、单图编辑、多图合成</li>
+        <li>📊 <strong>额度管理</strong>：实时查询剩余 Token 额度</li>
+      </ul>
+      <p style="margin-top:12px">多平台支持：Python 脚本（首选）、PowerShell 脚本（Windows ACP 兼容）、Bash 脚本（macOS / Linux）</p>
+    </div>
+  </div>
+
+  <!-- 核心能力 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">2</span>核心能力</h2>
+    <div class="card">
+      <h3>📝 文生图</h3>
+      <p>根据文字描述生成图片。支持自定义尺寸、质量等级、文件名前缀。</p>
+      <div class="pre-code"><code>python scripts/python/03_generate_image.py "中国山水画" 1088 1920 medium --prefix=landscape</code></div>
+    </div>
+    <div class="card">
+      <h3>✏️ 单图编辑</h3>
+      <p>修改已有图片风格、内容。只需提供图片路径和编辑指令。</p>
+      <div class="pre-code"><code>python scripts/python/04_edit_image.py D:\img.png "改成水墨风格" --quality high</code></div>
+    </div>
+    <div class="card">
+      <h3>🔀 多图合成</h3>
+      <p>多张图片融合创作。支持 2~N 张图片合成一张海报。</p>
+      <div class="pre-code"><code>python scripts/python/04_edit_image.py D:\a.png D:\b.png "合成一张海报" --width 1728 --height 3072</code></div>
+    </div>
+  </div>
+
+  <!-- 图片尺寸 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">3</span>图片尺寸速查</h2>
+    <p style="color:var(--text-dim);margin-bottom:16px">所有尺寸宽高必须为 16 的倍数，脚本会自动对齐。</p>
+    <table>
+      <thead>
+        <tr><th>比例</th><th>推荐尺寸</th><th>用途</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1:1</td><td>1024×1024</td><td>头像、主图</td></tr>
+        <tr><td>16:9</td><td>1920×1088</td><td>横版海报</td></tr>
+        <tr><td>9:16</td><td>1088×1920</td><td>竖版海报（推荐）</td></tr>
+        <tr><td>4:3</td><td>1440×1088</td><td>传统照片</td></tr>
+        <tr><td>3:2</td><td>1536×1024</td><td>官方横向</td></tr>
+        <tr><td>2:3</td><td>1024×1536</td><td>官方纵向</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 质量选项 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">4</span>质量选项</h2>
+    <p style="color:var(--text-dim);margin-bottom:16px">质量只影响处理耗时，不影响 token 消耗。</p>
+    <table>
+      <thead>
+        <tr><th>质量</th><th>耗时</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>low</td><td>~60 秒</td><td>快速预览</td></tr>
+        <tr><td>medium</td><td>~150 秒</td><td>一般用途</td></tr>
+        <tr><td>high</td><td>~360-600 秒</td><td>最终交付，消耗 token 是标准的 15 倍</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 铁律 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">5</span>铁律：不得擅自修改提示词</h2>
+    <div class="error-box">
+      <strong>❌ 绝对禁止</strong>：将中文提示词翻译成英文、擅自添加修饰语、修改专有名词、将简洁描述"扩写"成一大段英文 prompt。
+    </div>
+    <div class="success-box">
+      <strong>✅ 正确做法</strong>：用户说 <code>"生成一张 GTA 风格的狗狗封面"</code> → 直接原样传递 <code>"生成一张 GTA 风格的狗狗封面"</code>
+    </div>
+    <div class="tip">
+      <strong>唯一例外</strong>：当用户明确要求"帮我把这段话改成一个适合 AI 生成图片的 prompt"时，可以在用户确认后修改。
+    </div>
+  </div>
+
+  <!-- 踩坑记录 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">6</span>实战经验与踩坑记录</h2>
+
+    <div class="error-box">
+      <strong>❌ 问题：Bot 读取图片内容</strong><br>
+      图片编辑时 Bot 尝试"理解"图片内容后再生成编辑指令。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：Bot 只传递路径</strong><br>
+      Bot 只需要知道图片的<strong>文件路径</strong>，直接传给脚本即可。图片的"理解"由 API（gpt-image-2）完成。
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：Windows ACP 模式阻止 Python 执行</strong><br>
+      ACP 模式下 PowerShell 无法启动外部子进程。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：自动切换 PowerShell 脚本</strong><br>
+      检测到 ACP 阻止后，自动切换到 <code>scripts/powershell/</code> 目录下的 <code>.ps1</code> 脚本。
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：Python 编码乱码</strong><br>
+      Python subprocess 调用脚本时中文提示词乱码。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：显式设置 UTF-8</strong>
+      <div class="pre-code" style="margin:8px 0"><code>result = subprocess.run(
+    [sys.executable, "scripts/python/03_generate_image.py", "提示词"],
+    capture_output=True, text=True, encoding='utf-8'
+)</code></div>
+    </div>
+
+    <div class="error-box">
+      <strong>❌ 问题：用户截图路径获取</strong><br>
+      用户插入截图时不知道图片保存路径。
+    </div>
+    <div class="success-box">
+      <strong>✅ 解决：从 image_local_path 标签提取</strong><br>
+      系统会自动提供 <code>&lt;image_local_path&gt;</code> 标签，Bot 从中提取绝对路径直接传给脚本。
+    </div>
+  </div>
+
+  <!-- 错误速查 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">7</span>错误速查</h2>
+    <table>
+      <thead>
+        <tr><th>状态码</th><th>含义</th><th>处理</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>401</td><td>Key 无效</td><td>引导检查 Key 或重新申请</td></tr>
+        <tr><td>403</td><td>Key 停用 / 额度不足</td><td>显示剩余额度，联系管理员</td></tr>
+        <tr><td>408</td><td>请求超时</td><td>正常，图片生成需要 47~250 秒</td></tr>
+        <tr><td>413</td><td>请求体过大</td><td>缩小参考图后重试</td></tr>
+        <tr><td>500</td><td>服务器错误</td><td>联系管理员</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 申请流程 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">8</span>自助申请 API Key</h2>
+    <div class="card">
+      <p>首次使用需申请 API Key（格式：sk-self-xxx）</p>
+      <ol style="margin-top:12px;padding-left:20px;color:var(--text-dim)">
+        <li>访问自助申请页面：http://10.225.9.142:31888/#/self-service</li>
+        <li>填写信息：姓名、企业邮箱、工号、企微部门</li>
+        <li>提交后获取 API Key（仅显示一次，请立即保存）</li>
+        <li>将 Key 发给 Bot 配置</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 环境支持 -->
+  <div class="section">
+    <h2 class="section-title"><span class="num">9</span>多平台脚本支持</h2>
+    <table>
+      <thead>
+        <tr><th>环境</th><th>额度查询</th><th>文生图</th><th>图片编辑</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Python（首选）</td><td>01_check_quota.py</td><td>03_generate_image.py</td><td>04_edit_image.py</td></tr>
+        <tr><td>PowerShell（ACP 兼容）</td><td>01_check_quota.ps1</td><td>03_generate_image.ps1</td><td>04_edit_image.ps1</td></tr>
+        <tr><td>Bash（macOS/Linux）</td><td>01_check_quota.sh</td><td>03_generate_image.sh</td><td>04_edit_image.sh</td></tr>
+      </tbody>
+    </table>
+    <div class="tip" style="margin-top:16px">
+      <strong>Python 脚本仅使用标准库，零外部依赖。</strong>PowerShell 脚本兼容 Windows ACP 模式，无需启动外部子进程。
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="brand">🐾 WorkBuddy Skills</div>
+  <p>Image Gen Skill v4.1</p>
+  <p>为 Jerry 老板打造的专属 AI 助手技能库</p>
+</footer>
+
+</body>
+</html>
