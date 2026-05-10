@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>德克士30周年档期执行手册 - 门店任务清单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7c531 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ff6b35 0%, #e85a24 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        .header .date {
+            margin-top: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .content {
+            padding: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            color: #ff6b35;
+            border-left: 4px solid #ff6b35;
+            padding-left: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tag {
+            font-size: 12px;
+            background: #fff3e0;
+            color: #ff6b35;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: normal;
+        }
+        .card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f0f0f0;
+            color: #666;
+            font-weight: 600;
+        }
+        .highlight {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ff6b35;
+            margin-bottom: 20px;
+        }
+        .highlight-title {
+            font-weight: bold;
+            color: #ff6b35;
+            margin-bottom: 8px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff6b35, #f7c531);
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            background: #ff6b35;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .timeline-date {
+            font-size: 12px;
+            color: #ff6b35;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .timeline-content {
+            font-size: 14px;
+            color: #333;
+        }
+        .product-card {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .product-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            min-width: 140px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .product-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .product-price {
+            color: #ff6b35;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .product-cost {
+            font-size: 12px;
+            color: #888;
+        }
+        .task-list {
+            list-style: none;
+        }
+        .task-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .task-list li::before {
+            content: '📋';
+            font-size: 16px;
+        }
+        .task-high {
+            background: #ffebee;
+            border-left: 3px solid #f44336;
+            padding: 10px 15px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 10px;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .content { padding: 20px; }
+            .header h1 { font-size: 24px; }
+            table { font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍗 德克士30周年档期执行手册</h1>
+            <div class="subtitle">门店任务清单 - 门店业主/经理必读</div>
+            <div class="date">档期：2026年4月20日 - 5月24日</div>
+        </div>
+        
+        <div class="content">
+            <!-- 业绩目标 -->
+            <div class="section">
+                <div class="section-title">🎯 业绩目标</div>
+                <div class="highlight">
+                    <div class="highlight-title">档期大盘业绩：7.1亿 | 同期成长：+12%</div>
+                    <div>核心活动：王牌单品周周13.9元</div>
+                </div>
+            </div>
+            
+            <!-- 关键时间节点 -->
+            <div class="section">
+                <div class="section-title">📅 关键时间节点</div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">4月20日</div>
+                        <div class="timeline-content">30周年 BIG DAY 开业，窗贴/DMB上新</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">4月27日</div>
+                        <div class="timeline-content">新品上市：安格斯厚牛黄金米汉堡、嫩汁汁四方腿</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">5月1日-5日</div>
+                        <div class="timeline-content">五一假期特供，三人/双人超过瘾畅享餐</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">5月6日</div>
+                        <div class="timeline-content">脆脆日，闭店培训4小时，8:00恢复营业</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">5月18日-24日</div>
+                        <div class="timeline-content">618预热 + 30周年收官</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 门店核心任务 -->
+            <div class="section">
+                <div class="section-title">📋 门店核心任务</div>
+                
+                <div class="card">
+                    <div class="card-title">🔴 第一阶段：4/20-4/26 开业准备</div>
+                    <table>
+                        <tr><th>任务</th><th>截止</th></tr>
+                        <tr><td>完成窗贴布置（30周年主题）</td><td>4/20前</td></tr>
+                        <tr><td>更换新Logo物料</td><td>4/20前</td></tr>
+                        <tr><td>DMB大屏内容上新</td><td>4/20</td></tr>
+                        <tr><td>确认新品物料到位（四方腿、米汉堡）</td><td>4/20</td></tr>
+                        <tr><td>员工新制服到位</td><td>4/20</td></tr>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">🟠 第二阶段：4/27-5/5 五一前</div>
+                    <ul class="task-list">
+                        <li>主推安格斯厚牛黄金米汉堡（定价25元，成本8.81元）</li>
+                        <li>主推嫩汁汁四方腿（定价15.5元）</li>
+                        <li>推送社群招新活动：0元魔法鸡块入群礼</li>
+                        <li>五一套餐备货：30周年狂欢桶59.9元（10件套）</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">🟡 第三阶段：5/1-5/5 五一假期</div>
+                    <ul class="task-list">
+                        <li>上线五一特供套餐：三人/双人超过瘾畅享餐</li>
+                        <li>抖音评分维护（低于4分门店重点关注）</li>
+                        <li>淘宝闪购上线（上海/深圳/嘉兴门店优先）</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">🟢 第四阶段：5/6-5/24</div>
+                    <ul class="task-list">
+                        <li>5/6 脆脆日：闭店4小时培训，8:00恢复营业</li>
+                        <li>周周13.9元轮换：四方腿→菠萝堡→椰香咖喱饭</li>
+                        <li>618预热：公域平台提前准备</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 货盘执行 -->
+            <div class="section">
+                <div class="section-title">🍔 货盘执行要点 - 周周13.9元</div>
+                <div class="product-card">
+                    <div class="product-item">
+                        <div class="product-name">WK1 咔滋脆皮手枪腿</div>
+                        <div class="product-price">13.9元</div>
+                        <div class="product-cost">小食19.9元</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">WK2 安格斯厚牛米汉堡</div>
+                        <div class="product-price">13.9元</div>
+                        <div class="product-cost">29.9元三件套</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">WK3 嫩汁汁四方腿</div>
+                        <div class="product-price">13.9元</div>
+                        <div class="product-cost">狂欢桶59.9元</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">WK4 火山菠萝现煎鸡腿堡</div>
+                        <div class="product-price">13.9元</div>
+                    </div>
+                    <div class="product-item">
+                        <div class="product-name">WK5 椰香咖喱鸡腿排饭</div>
+                        <div class="product-price">13.9元</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 社群运营 -->
+            <div class="section">
+                <div class="section-title">📱 社群运营任务</div>
+                <div class="card">
+                    <table>
+                        <tr><th>指标</th><th>目标</th><th>门店任务</th></tr>
+                        <tr><td>单店社群人数</td><td>2000人</td><td>每日圈粉</td></tr>
+                        <tr><td>1v1好友新增</td><td>≥500人/月</td><td>引导添加</td></tr>
+                        <tr><td>转化率</td><td>1%</td><td>推送社群券</td></tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 其他重点 -->
+            <div class="section">
+                <div class="section-title">⭐ 其他重点任务</div>
+                
+                <div class="task-high">
+                    <strong>抖音评分维护</strong><br>
+                    前台摆放评价二维码，主动引导好评，目标4分以上
+                </div>
+                
+                <div class="card">
+                    <div class="card-title">费率调整</div>
+                    <p>4/1起抖音/快手/天猫抽佣降至 <strong>6%</strong>，门店利润提升约1.5%</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>📅 整理日期：2026年4月21日</p>
+            <p>💡 来源：德克士30周年档期执行手册</p>
+        </div>
+    </div>
+</body>
+</html>
